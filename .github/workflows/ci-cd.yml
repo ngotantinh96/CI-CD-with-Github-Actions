@@ -52,7 +52,7 @@ jobs:
     - name: Deploy to Local IIS
       run: |
         # Copy files to IIS directory
-        $sourcePath = "$(System.DefaultWorkingDirectory)/publish"
+        $sourcePath = "${{ github.workspace }}/publish"
         $destinationPath = "C:\inetpub\wwwroot\GithubActions"
         Copy-Item -Path $sourcePath\* -Destination $destinationPath -Recurse -Force
       shell: pwsh
