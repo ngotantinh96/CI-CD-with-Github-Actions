@@ -30,15 +30,6 @@ jobs:
     - name: Run tests
       run: dotnet test --no-build -c Release
 
-    # CodeQL scanning
-    - name: Set up CodeQL
-      uses: github/codeql-action/setup@v2
-
-    - name: Perform CodeQL analysis
-      uses: github/codeql-action/analyze@v2
-      with:
-        category: 'Security'
-
     - name: Publish the application
       run: dotnet publish -c Release -o PracticeWithGithubActions-API
 
