@@ -25,17 +25,19 @@ jobs:
       run: dotnet restore
 
     - name: Build the application
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build --no-restore -c Release
 
     - name: Run tests
-      run: dotnet test --no-build --configuration Release
+      run: dotnet test --no-build -c Release
 
     - name: Publish the application
-      run: dotnet publish --configuration Release --output PracticeWithGithubActions.API\PracticeWithGithubActions.API.csproj .\PracticeWithGithubActions-API
+      run: dotnet publish -c Release -o PracticeWithGithubActions-API
 
     - name: Deploy to Local IIS
-      run: Copy-Item -Path ./PracticeWithGithubActions-API/* -Destination C:/inetpub/wwwroot/GithubActions -Recurse -Force
+      run: | 
+        iisreset /stop
+        Copy-Item -Path ./PracticeWithGithubActions-API/* -Destination C:/inetpub/wwwroot/GithubActions -Recurse -Force
+        iisreset /start
 
-    - name: Restart IIS
-      run: iisreset
-      shell: cmd
+    - name: Curl the website as a smoke test
+      run: curl http://localhost/GithubActions
