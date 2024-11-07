@@ -47,21 +47,10 @@ jobs:
         dotnet-version: '8.x'  # Replace with your .NET version
 
     - name: Publish the application
-      run: dotnet publish --configuration Release --output ./publish
+      run: dotnet publish --configuration Release --output PracticeWithGithubActions.API .\PracticeWithGithubActions-API
 
     - name: Deploy to Local IIS
-      run: |
-        # Copy files to IIS directory
-        $sourcePath = "${{ github.workspace }}/publish"
-        $destinationPath = "C:\inetpub\wwwroot\GithubActions"
-
-        # Remove all items in the destination directory
-        if (Test-Path $destinationPath) {
-          Remove-Item -Path $destinationPath\* -Recurse -Force
-        }
-
-        Copy-Item -Path $sourcePath\* -Destination $destinationPath -Recurse -Force
-      shell: pwsh
+      run: Copy-Item -Path ./PracticeWithGithubActions-API/* -Destination C:/inetpub/wwwroot/GithubActions -Recurse -Force
 
     - name: Restart IIS
       run: iisreset
